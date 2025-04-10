@@ -181,7 +181,7 @@ jobs:
           echo "CONFIG_IP6_NF_MATCH_HL=y" >> ./common/arch/arm64/configs/gki_defconfig
 
           # Add personal config setting
-          echo "CONFIG_NO_HZ_FULL=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #echo "CONFIG_NO_HZ_FULL=y" >> ./common/arch/arm64/configs/gki_defconfig
 
           # Add BBR config setting
           echo "CONFIG_TCP_CONG_ADVANCED=y" >> ./common/arch/arm64/configs/gki_defconfig
