@@ -42,16 +42,10 @@ jobs:
           remove-codeql: 'true'
           remove-docker-images: 'true'
 
-      - name: Cleanup before action
-        run: |
-          # Cleanup before action
-          #bazel clean --expunge
-          /home/runner/work/OnePlus_13_KernelSU_SUSFS/OnePlus_13_KernelSU_SUSFS/OP13/kernel_platform/tools/bazel clean --expunge
-
       - name: Install Repo and Python
         run: |
           # Install dependencies
-          sudo apt update
+          sudo apt update && sudo apt upgrade -y
           sudo apt install repo python3 python-is-python3
 
       - name: Set CONFIG Environment Variable
