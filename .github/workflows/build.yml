@@ -42,6 +42,12 @@ jobs:
           remove-codeql: 'true'
           remove-docker-images: 'true'
 
+      - name: Cleanup before action
+        run: |
+          # Cleanup before action
+          bazel clean --expunge
+          /home/runner/work/OnePlus_13_KernelSU_SUSFS/OnePlus_13_KernelSU_SUSFS/OP13/kernel_platform/tools/bazel clean --expunge
+
       - name: Install Repo and Python
         run: |
           # Install dependencies
@@ -183,7 +189,7 @@ jobs:
           
           # Add personal config setting
           #echo "CONFIG_NO_HZ_FULL=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_SPMI_MSM_PMIC_ARB=y" >> ./common/arch/arm64/configs/gki_defconfig
+          #echo "CONFIG_SPMI_MSM_PMIC_ARB=y" >> ./common/arch/arm64/configs/gki_defconfig
           
           # Add BBR config setting
           #echo "CONFIG_TCP_CONG_ADVANCED=y" >> ./common/arch/arm64/configs/gki_defconfig
