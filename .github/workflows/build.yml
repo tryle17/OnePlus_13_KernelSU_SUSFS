@@ -45,7 +45,7 @@ jobs:
       - name: Cleanup before action
         run: |
           # Cleanup before action
-          bazel clean --expunge
+          #bazel clean --expunge
           /home/runner/work/OnePlus_13_KernelSU_SUSFS/OnePlus_13_KernelSU_SUSFS/OP13/kernel_platform/tools/bazel clean --expunge
 
       - name: Install Repo and Python
