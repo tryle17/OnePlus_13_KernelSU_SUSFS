@@ -273,7 +273,7 @@ jobs:
           rm ./kernel_platform/msm-kernel/android/abi_gki_protected_exports_* || echo "No protected exports!"
           
           BUILD_TYPE="gki"
-          BAZEL_ARGS=(--jobs=$(nproc --all) --config=fast --lto=thin)
+          BAZEL_ARGS=(--jobs=$(nproc --all) --lto=thin)
           if [ "${{ inputs.soc }}" == "sun" ]; then
             BUILD_TYPE="perf"
             BAZEL_ARGS+=(-g)
