@@ -14,11 +14,11 @@ on:
         default: false
 
 jobs:
-  #build-batch-1: # Non Bazel Builds
-    #strategy:
-      #fail-fast: false
-      #matrix:
-        #include:
+  build-batch-1: # Non Bazel Builds
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
          # - model: OP11
          #   soc: kalama
          #   branch: oneplus/sm8550
@@ -49,27 +49,27 @@ jobs:
          #   manifest: oneplus_10t_v.xml
          #   android_version: android12
          #   kernel_version: "5.10"
-         # - model: OP10pro
-         #   soc: waipio
-         #   branch: oneplus/sm8450
-         #   manifest: oneplus_10_pro_v.xml
-         #   android_version: android12
-         #   kernel_version: "5.10"
-         # - model: OP-ACE-2-PRO
-         #   soc: kalama
-         #   branch: oneplus/sm8550
-         #   manifest: oneplus_ace2pro_v.xml
-         #   android_version: android13
-         #   kernel_version: "5.15"
-    #uses: ./.github/workflows/build.yml
-    #secrets: inherit
-    #with:
-      #model: ${{ matrix.model }}
-      #soc: ${{ matrix.soc }}
-      #branch: ${{ matrix.branch }}
-      #manifest: ${{ matrix.manifest }}
-      #android_version: ${{ matrix.android_version }}
-      #kernel_version: ${{ matrix.kernel_version }}
+          - model: OP10pro
+            soc: waipio
+            branch: oneplus/sm8450
+            manifest: oneplus_10_pro_v.xml
+            android_version: android12
+            kernel_version: "5.10"
+          - model: OP-ACE-2-PRO
+            soc: kalama
+            branch: oneplus/sm8550
+            manifest: oneplus_ace2pro_v.xml
+            android_version: android13
+            kernel_version: "5.15"
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+    with:
+      model: ${{ matrix.model }}
+      soc: ${{ matrix.soc }}
+      branch: ${{ matrix.branch }}
+      manifest: ${{ matrix.manifest }}
+      android_version: ${{ matrix.android_version }}
+      kernel_version: ${{ matrix.kernel_version }}
 
   build-batch-2:
     # needs: build-batch-1
@@ -125,7 +125,7 @@ jobs:
 
   trigger-release:
     needs:
-     # - build-batch-1
+      - build-batch-1
       - build-batch-2
     runs-on: ubuntu-latest
     if: ${{ inputs.make_release }}
@@ -144,12 +144,14 @@ jobs:
         -> https://github.com/KernelSU-Next/KernelSU-Next
 
         Features:
-        [+] KernelSU-Next (Stable)
+        [+] KernelSU-Next (12490)
         [+] SUSFS v1.5.5
         [+] Maphide LineageOS Detections
         [+] Futile Maphide for jit-zygote-cache Detections
         [+] Magic Mount Support
+        [+] Mountify Support
         [+] BBR Support
+        [+] Unlimited Hotspot Support
 
     steps:
       - name: Checkout code
