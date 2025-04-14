@@ -80,7 +80,7 @@ jobs:
           - model: OP13
             soc: sun
             branch: oneplus/sm8750
-            manifest: JiuGeFaCai_oneplus_13_v.xml
+            manifest: oneplus_13.xml
             android_version: android15
             kernel_version: "6.6"
          # - model: OPAce5Pro
@@ -183,20 +183,21 @@ jobs:
           body: ${{ env.RELEASE_NOTES }}  # Pass the RELEASE_NOTES to the action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Release Assets Dynamically
-        run: |
-          for file in ./downloaded-artifacts/kernel-*/*; do
-              if [ -d "$file" ]; then
-                  continue
-              fi
-              echo "Uploading $file..."
-              gh release upload ${{ env.NEW_TAG }} "$file"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEW_TAG: ${{ env.NEW_TAG }}
 
-      - name: Display Files Uploaded
-        run: |
-          echo "GitHub release created with the following files:"
-          ls ./downloaded-artifacts/**/*
+     # - name: Upload Release Assets Dynamically
+       # run: |
+       #   for file in ./downloaded-artifacts/kernel-*/*; do
+       #       if [ -d "$file" ]; then
+       #           continue
+       #       fi
+       #       echo "Uploading $file..."
+       #       gh release upload ${{ env.NEW_TAG }} "$file"
+       # env:
+       #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       #   NEW_TAG: ${{ env.NEW_TAG }}
+
+     # - name: Display Files Uploaded
+     #   run: |
+     #     echo "GitHub release created with the following files:"
+     #     ls ./downloaded-artifacts/**/*
