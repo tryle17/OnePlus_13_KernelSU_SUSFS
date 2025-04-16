@@ -217,7 +217,7 @@ jobs:
           # Add personal config setting
           #echo "CONFIG_NO_HZ_FULL=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_IP_NF_TARGET_ECN=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_NET_SCH_CAKE=m" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_NET_SCH_CAKE=y" >> ./common/arch/arm64/configs/gki_defconfig
 
           # Add rcu config setting
           echo "CONFIG_RCU_FAST_NO_HZ=y" >> ./common/arch/arm64/configs/gki_defconfig
@@ -239,7 +239,7 @@ jobs:
           echo "CONFIG_NET_SCH_HTB=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_NET_SCH_PRIO=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_NET_SCH_MULTIQ=n" >> ./common/arch/arm64/configs/gki_defconfig
-          #echo "CONFIG_NET_SCH_MQ=n" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_NET_SCH_MQ=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_NET_SCH_PPQ=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_NET_SCH_SFQ=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_NET_SCH_TBF=n" >> ./common/arch/arm64/configs/gki_defconfig
