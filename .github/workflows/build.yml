@@ -250,8 +250,8 @@ jobs:
       - name: Extend? CDG
         if: ${{ inputs.kernel_version == '6.6' }}
         run: |
-          cd "$CONFIG/kernel_platform/common"
-          cp ../../../../cdg/tcp_cdg.c ./net/ipv4/
+          cd "$CONFIG/kernel_platform/common/net/ipv4"
+          curl -O "https://raw.githubusercontent.com/torvalds/linux/refs/heads/master/net/ipv4/tcp_cdg.c"
 
       - name: Run sed and perl Commands
         run: |
