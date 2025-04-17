@@ -251,7 +251,7 @@ jobs:
         if: ${{ inputs.kernel_version == '6.6' }}
         run: |
           cd "$CONFIG/kernel_platform/common"
-          cp /../../../cdg/tcp_cdg.c ./net/ipv4/
+          cp ../../../cdg/tcp_cdg.c ./net/ipv4/
 
       - name: Run sed and perl Commands
         run: |
