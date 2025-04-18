@@ -41,7 +41,6 @@ jobs:
           sudo docker image prune --all --force
           echo "some directories deleted"
           sudo rm -vrf /home/runner/work/OnePlus_13_KernelSU_SUSFS/OnePlus_13_KernelSU_SUSFS/OP13 || true
-          sudo rm -vrf /home/runner/work/OnePlus_13_KernelSU_SUSFS/OnePlus_13_KernelSU_SUSFS/. || true
           sudo rm -vrf ~/.cache/bazel/* || true
           sudo rm -vrf /home/.cache/bazel/* || true
           sudo rm -vrf /home/runner/.cache/bazel/* || true
@@ -166,8 +165,8 @@ jobs:
           echo "Changing to configuration directory: $CONFIG..."
           cd "$CONFIG/kernel_platform/common"
           # Apply additional patch
-          cp ../../../kernel_patches/next/next_hooks.patch ./
-          patch -p1 --fuzz=3 < ./next_hooks.patch
+          cp ../../../kernel_patches/next/syscall_hooks.patch ./
+          patch -p1 --fuzz=3 < ./syscall_hooks.patch
           
       - name: Apply Hide Stuff Patches
         run: |
@@ -248,11 +247,12 @@ jobs:
           echo "CONFIG_IP_NF_TARGET_ECN=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_NET_SCH_CAKE=y" >> ./common/arch/arm64/configs/gki_defconfig
 
-      - name: Extend? CDG
+      - name: Update? CDG and BBR
         if: ${{ inputs.kernel_version == '6.6' }}
         run: |
           cd "$CONFIG/kernel_platform/common/net/ipv4"
-          curl -O https://raw.githubusercontent.com/torvalds/linux/refs/heads/master/net/ipv4/tcp_cdg.c
+          curl -O --time-cond tcp_cdg.c https://raw.githubusercontent.com/torvalds/linux/refs/heads/master/net/ipv4/tcp_cdg.c
+          curl -O --time-cond tcp_bbr.c https://raw.githubusercontent.com/torvalds/linux/refs/heads/master/net/ipv4/tcp_bbr.c
           ls -t | grep tcp_
 
       - name: Run sed and perl Commands
