@@ -165,8 +165,8 @@ jobs:
           echo "Changing to configuration directory: $CONFIG..."
           cd "$CONFIG/kernel_platform/common"
           # Apply additional patch
-          cp ../../../kernel_patches/next/syscall_hooks.patch ./
-          patch -p1 --fuzz=3 < ./syscall_hooks.patch
+          cp ../../../kernel_patches/next/syscall64_hooks.patch ./
+          patch -p1 --fuzz=3 < ./syscall64_hooks.patch
           
       - name: Apply Hide Stuff Patches
         run: |
@@ -243,6 +243,8 @@ jobs:
           fi
 
           # Add personal config setting
+          echo "CONFIG_LOCALVERSION_AUTO=n" >> ./common/arch/arm64/configs/gki_defconfig
+          echo 'CONFIG_LOCALVERSION="-android15-8-o-FerK-4k"' >> ./common/arch/arm64/configs/gki_defconfig
           #echo "CONFIG_NO_HZ_FULL=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_IP_NF_TARGET_ECN=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_NET_SCH_CAKE=y" >> ./common/arch/arm64/configs/gki_defconfig
@@ -253,9 +255,11 @@ jobs:
           cd "$CONFIG/kernel_platform/common/net/ipv4"
           sed -i 's/net->ipv4.sysctl_tcp_ecn = 2;/net->ipv4.sysctl_tcp_ecn = 1;/' tcp_ipv4.c
           grep "sysctl_tcp_ecn" tcp_ipv4.c
-          curl -O --time-cond tcp_cdg.c https://raw.githubusercontent.com/torvalds/linux/refs/heads/master/net/ipv4/tcp_cdg.c
+          sed -i '/\.procname[[:space:]]*=[[:space:]]*"tcp_ecn"/, /^[[:space:]]*\}/ s/SYSCTL_TWO/SYSCTL_ONE/' sysctl_net_ipv4.c
+          grep -A6 '\.procname.*tcp_ecn' sysctl_net_ipv4.c
+          #curl -O --time-cond tcp_cdg.c https://raw.githubusercontent.com/torvalds/linux/refs/heads/master/net/ipv4/tcp_cdg.c
           #curl -O --time-cond tcp_bbr.c https://raw.githubusercontent.com/torvalds/linux/refs/heads/master/net/ipv4/tcp_bbr.c
-          ls -t | grep tcp_
+          ls -t | grep -E 'tcp_|sysctl_'
 
       - name: Run sed and perl Commands
         run: |
@@ -270,9 +274,9 @@ jobs:
           
           # Run sed commands for modifications
           sed -i 's/check_defconfig//' ./common/build.config.gki
-          sed -i '$s|echo "\$res"|echo "\$res-FerK"|' ./common/scripts/setlocalversion
-          sed -i '$s|echo "\$res"|echo "\$res-FerK"|' ./msm-kernel/scripts/setlocalversion
-          sed -i '$s|echo "\$res"|echo "\$res-FerK"|' ./external/dtc/scripts/setlocalversion
+          #sed -i '$s|echo "\$res"|echo "\$res-FerK"|' ./common/scripts/setlocalversion
+          #sed -i '$s|echo "\$res"|echo "\$res-FerK"|' ./msm-kernel/scripts/setlocalversion
+          #sed -i '$s|echo "\$res"|echo "\$res-FerK"|' ./external/dtc/scripts/setlocalversion
           sed -i "/stable_scmversion_cmd/s/-maybe-dirty//g" ./build/kernel/kleaf/impl/stamp.bzl || echo "No stamp.bzl!"
           sed -i 's/-dirty//' ./common/scripts/setlocalversion
           sed -i 's/-dirty//' ./msm-kernel/scripts/setlocalversion
