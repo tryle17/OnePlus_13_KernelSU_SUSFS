@@ -256,7 +256,7 @@ jobs:
           grep "sysctl_tcp_ecn" tcp_ipv4.c
           sed -i '/\.procname[[:space:]]*=[[:space:]]*"tcp_ecn"/, /^[[:space:]]*\}/ s/SYSCTL_TWO/SYSCTL_ONE/' sysctl_net_ipv4.c
           grep -A6 '\.procname.*tcp_ecn' sysctl_net_ipv4.c
-          sed -i 's/net->ipv4.sysctl_tcp_pacing_ss_ratio = 200;/net->ipv4.sysctl_tcp_pacing_ss_ratio = 180;/' tcp_ipv4.c
+          sed -i 's/net->ipv4.sysctl_tcp_pacing_ss_ratio = 200;/net->ipv4.sysctl_tcp_pacing_ss_ratio = 175;/' tcp_ipv4.c
           sed -i 's/net->ipv4.sysctl_tcp_pacing_ca_ratio = 120;/net->ipv4.sysctl_tcp_pacing_ca_ratio = 110;/' tcp_ipv4.c
           grep "sysctl_tcp_pacing" tcp_ipv4.c
           curl -O --time-cond tcp_cdg.c https://raw.githubusercontent.com/torvalds/linux/refs/heads/master/net/ipv4/tcp_cdg.c
