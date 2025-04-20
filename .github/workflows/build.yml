@@ -165,8 +165,8 @@ jobs:
           echo "Changing to configuration directory: $CONFIG..."
           cd "$CONFIG/kernel_platform/common"
           # Apply additional patch
-          cp ../../../kernel_patches/next/syscall64_hooks.patch ./
-          patch -p1 --fuzz=3 < ./syscall64_hooks.patch
+          cp ../../../kernel_patches/next/syscall_hooks.patch ./
+          patch -p1 --fuzz=3 < ./syscall_hooks.patch
           
       - name: Apply Hide Stuff Patches
         run: |
@@ -244,13 +244,12 @@ jobs:
 
           # Add personal config setting
           echo "CONFIG_LOCALVERSION_AUTO=n" >> ./common/arch/arm64/configs/gki_defconfig
-          echo 'CONFIG_LOCALVERSION="-android15-8-o-FerK-4k"' >> ./common/arch/arm64/configs/gki_defconfig
-          #echo "CONFIG_NO_HZ_FULL=y" >> ./common/arch/arm64/configs/gki_defconfig
+          sed -i 's|echo "\$res"|res=\$\(echo \$res \| cut -d- -f1-4\)-Ferk-4k\);echo "\$res"|g' ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_IP_NF_TARGET_ECN=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_NET_SCH_CAKE=y" >> ./common/arch/arm64/configs/gki_defconfig
 
       - name: Update? CDG and BBR + Force ECN
-        if: ${{ inputs.kernel_version == '6.6' }}
+        #if: ${{ inputs.kernel_version == '6.6' }}
         run: |
           cd "$CONFIG/kernel_platform/common/net/ipv4"
           sed -i 's/net->ipv4.sysctl_tcp_ecn = 2;/net->ipv4.sysctl_tcp_ecn = 1;/' tcp_ipv4.c
